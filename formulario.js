@@ -254,6 +254,7 @@ function modificar(e){
     
     const userModificado = {
             "nombre": nuevoNombre
+            
     }
         const options = {
             method: 'PUT',
@@ -280,7 +281,6 @@ function modificar(e){
 
     function eliminar(e) {
         const usuariosId = e.target.parentElement.id;
-       
             const options = {
                 method: 'DELETE',
                 headers: {"Content-Type": "application/json"}
