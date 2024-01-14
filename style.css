@@ -4,3 +4,7 @@ sup{color: red;}
     border: 1px solid red;
     background: lightcoral;
 }
+
+.oculto {
+    display: none;
+}

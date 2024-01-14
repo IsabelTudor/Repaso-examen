@@ -5,24 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script src="formulario.js"></script>
+    <script src="formulario.js" defer></script>
 </head>
 <body>
+    <button id="boton">Mostrar u ocultar formulario</button>
     <form id="formulario">
-        <label name="nombre">Nombre<sup>*</sup></label>
-        <input type="text" id="nombre"><span id="SpanError"></span><br>
-        <label name="apellidos">Apellidos<sup>*</sup></label>
-        <input type="text" id="apellidos"><span id="SpanError"></span><br>
-        <label name="username">Username<sup>*</sup></label>
+        <label for="nombre">Nombre<sup>*</sup></label>
+        <input type="text" id="nombre"><span id="SpanErrorNombre"></span><br>
+        <label for="apellidos">Apellidos<sup>*</sup></label>
+        <input type="text" id="apellidos"><span id="SpanErrorApellidos"></span><br>
+        <label for="dni">DNI<sup>*</sup></label>
+        <input type="text" id="dni"><span id="SpanErrorDNI"></span><br>
+        <label for="username">Username<sup>*</sup></label>
         <input type="text" id="username"><span id="SpanError"></span><br>
-        <label name="password">Password<sup>*</sup></label>
-        <input type="password" id="password"><span id="SpanError"></span><br>
-        <label name="repassword">Password 2<sup>*</sup></label>
-        <input type="password" id="password2"><span id="SpanError"></span><br>
-        <label name="email">Email</label>
-        <input type="text" id="email"><span id="SpanError"></span><br>
-        <input type="checkbox"><label>Si quiere recibir más info haga check y añada el email</label><br>
-        <input type="submit" >
+        <label for="password">Password<sup>*</sup></label>
+        <input type="password" id="password"><span id="SpanErrorPassword"></span><br>
+        <label for="repassword">Password 2<sup>*</sup></label>
+        <input type="password" id="password2"><span id="SpanErrorPassword2"></span><br>
+        <label for="email">Email</label>
+        <input type="text" id="email"><span id="SpanErrorEmail"></span><br>
+        <input type="checkbox" id="avisos"><label>Si quiere recibir más info haga check y añada el email</label><br>
+        <input type="submit" value="Registrarse"><div id="errorForm"></div>
     </form>
 </body>
 </html>
