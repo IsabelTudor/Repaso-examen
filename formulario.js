@@ -1,4 +1,5 @@
 const URL_SERVER ="http://3.94.44.212:3000/";
+document.addEventListener("DOMContentLoaded",cargarUsuarios)
 document.addEventListener("DOMContentLoaded",()=>{
     document.getElementById("boton").addEventListener("click",mostrar),
     document.getElementById("nombre").addEventListener("blur",comprobarnombre),
@@ -10,6 +11,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     document.getElementById("email").addEventListener("blur",comprobaremail),
     document.getElementById("formulario").addEventListener("submit",validarFormulario)
 })
+
 
 function mostrar() {
     const formulario = document.getElementById("formulario");
@@ -161,7 +163,42 @@ function validarFormulario(e){
     }
     else{
         document.getElementById("errorForm").innerText = "";
-        document.getElementById("formulario").addEventListener("submit",cargarUsuarios)
+        
+        const nombre=document.getElementById("nombre").value;
+        const apellidos=document.getElementById("apellidos").value;
+        const dni=document.getElementById("dni").value;
+        const password=document.getElementById("password").value;
+        const email=document.getElementById("email").value;
+        
+        const user={
+            "nombre":nombre,
+            "apellidos":apellidos,
+            "dni":dni,
+            "email":email,
+            "password":password
+        }
+
+        const options={
+            method: 'POST',
+            headers:{"Content-Type": "application/json"},
+            body:JSON.stringify(user) 
+        }
+        fetch(`${URL_SERVER}usuarios/`,options)
+        .then(response=>{
+            if(response.ok){
+                return response.json();
+            }else throw new Error (response.status)
+        },error=>{
+            console.log(error);
+        })
+        .then(data=>{
+            console.log(data);
+            cargarUsuarios();
+        })
+        .catch((error)=>{
+            document.querySelector("main").innerHTML="Error al insertar usuario"
+        })
+
     }
 }
 
@@ -178,8 +215,91 @@ function cargarUsuarios(e){
     })
     .then(data=>{
         console.log(data);
+        pintarUsuarios(data);
     })
     .catch(error=>{
         document.querySelector("main").innerHTML=`Error de conexion con el servidor, revisa la conexion: ${error}`
     })
 }
+
+function pintarUsuarios(usuarios) {
+    const listaUsuarios = document.createElement("section");
+    usuarios.forEach(usuario => {
+        const itemUsuario = document.createElement("ol");
+        const seccionUsuarioNuevo = document.createElement("section");
+        const nombreUsuario = document.createElement("h2");
+        const botonModificar = document.createElement("button");
+        const botonEliminar = document.createElement("button");
+
+        itemUsuario.appendChild(seccionUsuarioNuevo);
+        seccionUsuarioNuevo.append(nombreUsuario, botonModificar, botonEliminar);
+        listaUsuarios.appendChild(itemUsuario);
+
+        itemUsuario.id = usuario.id;
+        nombreUsuario.innerText = usuario.nombre;
+        botonModificar.innerText = `Modificar nombre`;
+        botonModificar.addEventListener("click", modificar);
+        botonEliminar.innerText = `Eliminar`;
+        botonEliminar.addEventListener("click", eliminar);
+    });
+
+    document.querySelector("main").appendChild(listaUsuarios);
+}
+
+
+function modificar(e){
+    const usuariosId=e.target.parentElement.id;
+    console.log(usuariosId);
+    const nuevoNombre = prompt("Ingrese el nuevo nombre:");
+    
+    const userModificado = {
+            "nombre": nuevoNombre
+    }
+        const options = {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(userModificado)
+        };
+
+        fetch(`${URL_SERVER}usuarios/3`, options)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.status);
+                }
+            })
+            .then(data => {
+                console.log(data);
+                cargarUsuarios();
+            })
+            .catch(error => {
+                console.error("Error al modificar usuario:", error);
+            });
+    }
+
+    function eliminar(e) {
+        const usuariosId = e.target.parentElement.id;
+       
+            const options = {
+                method: 'DELETE',
+                headers: {"Content-Type": "application/json"}
+            };
+            fetch(`${URL_SERVER}usuarios/2e1a`, options)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(response.status);
+                    }
+                })
+                .then(data => {
+                    console.log(data);
+                    cargarUsuarios();
+                })
+                .catch(error => {
+                    console.error("Error al eliminar usuario:", error);
+                });
+        }
+    
+    
