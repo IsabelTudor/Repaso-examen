@@ -1,3 +1,4 @@
+const URL_SERVER ="http://3.94.44.212:3000/";
 document.addEventListener("DOMContentLoaded",()=>{
     document.getElementById("boton").addEventListener("click",mostrar),
     document.getElementById("nombre").addEventListener("blur",comprobarnombre),
@@ -160,6 +161,25 @@ function validarFormulario(e){
     }
     else{
         document.getElementById("errorForm").innerText = "";
-        e.target.submit();
+        document.getElementById("formulario").addEventListener("submit",cargarUsuarios)
     }
+}
+
+function cargarUsuarios(e){
+    fetch(`${URL_SERVER}usuarios/`)
+    .then(response=>{
+        if(response.ok){
+            return response.json();
+        }else throw new Error(response.status)
+    },
+    error=>{
+        console.log(error);
+        throw new Error("Error en la red")
+    })
+    .then(data=>{
+        console.log(data);
+    })
+    .catch(error=>{
+        document.querySelector("main").innerHTML=`Error de conexion con el servidor, revisa la conexion: ${error}`
+    })
 }
